@@ -1,7 +1,6 @@
 import Phaser from "phaser";
-// import logoImg from './assets/logo.png';
 
-class PlayScene extends Phaser.Scene {
+class Play extends Phaser.Scene {
     constructor() {
         super('PlayScene');
     }
@@ -14,7 +13,7 @@ class PlayScene extends Phaser.Scene {
     create ()
     {
         const logo = this.add.image(400, 150, 'logo');
-      
+
         this.tweens.add({
             targets: logo,
             y: 450,
@@ -26,4 +25,4 @@ class PlayScene extends Phaser.Scene {
     }
 }
 
-export default PlayScene;
+export default Play;
