@@ -11,7 +11,7 @@ class Preload extends Phaser.Scene {
     
     // loads all assets into memory
     preload() {
-        this.load.image('logo', require('../assets/logo.png'));
+
     }
 
     // by default, loads the PlayScene after preloading assets
