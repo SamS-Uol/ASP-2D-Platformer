@@ -8,8 +8,16 @@ class Play extends Phaser.Scene {
     create ()
     {
         const map = this.createMap();
-        this.createLayers(map);
-        this.createPlayer();
+        const layers = this.createLayers(map);
+
+        this.player = this.createPlayer();
+        this.playerSpeed = 200;
+
+        // create collider between player and the platformColliders layer
+        this.physics.add.collider(this.player, layers.platformsColliders);
+
+        // create basic inputs for handling player movement
+        this.cursors = this.input.keyboard.createCursorKeys();
     }
 
     createMap() {
@@ -37,15 +45,35 @@ class Play extends Phaser.Scene {
         // to NOT have the collision editor or terrain editor open when you set them up.
         // This map has tiles with a boolean "collides" property, so we can do the following:
         platformsColliders.setCollisionByProperty({collides: true});
+
+        return { environment, platforms, platformsColliders };
     }
 
     createPlayer() {
         // creates a a new Player object/sprite at location 50, 280
-        const player = this.physics.add.sprite(50, 280, 'player');
+        const player = this.physics.add.sprite(50, 80, 'player');
         // sets 500 vertical gravity
         player.body.setGravityY(500);
         // ensures the player cannot move past the edges of the map
         player.setCollideWorldBounds();
+
+        return player;
+    }
+
+    // is called 60 fps
+    update() {
+
+        // handling player movement
+        const { left, right } = this.cursors;
+
+        // moves player left, right, or stops/idle
+        if (left.isDown) {
+            this.player.setVelocityX(-this.playerSpeed)
+        } else if (right.isDown) {
+            this.player.setVelocityX(this.playerSpeed);
+        } else {
+            this.player.setVelocityX(0);
+        }
     }
 }
 
