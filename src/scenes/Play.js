@@ -4,11 +4,6 @@ class Play extends Phaser.Scene {
     constructor() {
         super('PlayScene');
     }
-
-    preload ()
-    {
-        this.load.image('logo', 'assets/logo.png');
-    }
       
     create ()
     {

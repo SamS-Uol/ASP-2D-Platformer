@@ -4,8 +4,7 @@
 import Phaser from 'phaser';
 
 import PlayScene from'./scenes/Play';
-
-// custom variables
+import PreloadScene from'./scenes/Preload';
 
 // width and height of the scene - change here to adjust size of scene
 const WIDTH = 800;
@@ -18,7 +17,7 @@ const SHARED_CONFIG = {
 }
 
 // create array of scenes
-const Scenes = [PlayScene];
+const Scenes = [PreloadScene, PlayScene];
 
 // store the new Scene function into the variable createScene
 const createScene = Scene => new Scene(SHARED_CONFIG)
