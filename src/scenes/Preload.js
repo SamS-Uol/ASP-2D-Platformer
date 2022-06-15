@@ -11,7 +11,8 @@ class Preload extends Phaser.Scene {
     
     // loads all assets into memory
     preload() {
-
+        this.load.tilemapTiledJSON('crystal_world_map', 'assets/tilemaps/world_map_crystal.json');
+        this.load.image('tiles-1', 'assets/art_maps/crystal_world/main_lev_build_1.png')
     }
 
     // by default, loads the PlayScene after preloading assets

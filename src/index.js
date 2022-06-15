@@ -7,8 +7,8 @@ import PlayScene from'./scenes/Play';
 import PreloadScene from'./scenes/Preload';
 
 // width and height of the scene - change here to adjust size of scene
-const WIDTH = 800;
-const HEIGHT = 600;
+const WIDTH = 1600;
+const HEIGHT = 640;
 
 // create a custom config object that can be shared between all scenes
 const SHARED_CONFIG = {
