@@ -1,4 +1,7 @@
-// import Phaser from "phaser";
+// class that sets up game
+// creates map, layers, and player
+
+import Player from '../Player.js';
 
 class Play extends Phaser.Scene {
     constructor() {
@@ -50,31 +53,9 @@ class Play extends Phaser.Scene {
     }
 
     createPlayer() {
-        // creates a a new Player object/sprite at location 50, 280
-        const player = this.physics.add.sprite(50, 80, 'player');
-        // sets 500 vertical gravity
-        player.body.setGravityY(500);
-        // ensures the player cannot move past the edges of the map
-        player.setCollideWorldBounds();
-
-        return player;
-    }
-
-    // is called 60 fps
-    update() {
-
-        // handling player movement
-        const { left, right } = this.cursors;
-
-        // moves player left, right, or stops/idle
-        if (left.isDown) {
-            this.player.setVelocityX(-this.playerSpeed)
-        } else if (right.isDown) {
-            this.player.setVelocityX(this.playerSpeed);
-        } else {
-            this.player.setVelocityX(0);
-        }
+        return new Player(this, 50, 80);
     }
 }
 
+// export Play class to be used in index.js
 export default Play;

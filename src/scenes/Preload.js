@@ -1,8 +1,6 @@
 // a class that handles all preload functionality
 // to be loaded before any other scene in index.js!!
 
-// import Phaser from 'phaser';
-
 class Preload extends Phaser.Scene {
     
     constructor() {
