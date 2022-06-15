@@ -9,6 +9,7 @@ class Play extends Phaser.Scene {
     {
         const map = this.createMap();
         this.createLayers(map);
+        this.createPlayer();
     }
 
     createMap() {
@@ -36,6 +37,15 @@ class Play extends Phaser.Scene {
         // to NOT have the collision editor or terrain editor open when you set them up.
         // This map has tiles with a boolean "collides" property, so we can do the following:
         platformsColliders.setCollisionByProperty({collides: true});
+    }
+
+    createPlayer() {
+        // creates a a new Player object/sprite at location 50, 280
+        const player = this.physics.add.sprite(50, 280, 'player');
+        // sets 500 vertical gravity
+        player.body.setGravityY(500);
+        // ensures the player cannot move past the edges of the map
+        player.setCollideWorldBounds();
     }
 }
 
