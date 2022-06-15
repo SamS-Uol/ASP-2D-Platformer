@@ -1,7 +1,7 @@
 // imports files
 // phaser is from NPM
 // Scenes are imported from scenes folder under src
-import Phaser from 'phaser';
+// import Phaser from 'phaser';
 
 import PlayScene from'./scenes/Play';
 import PreloadScene from'./scenes/Preload';

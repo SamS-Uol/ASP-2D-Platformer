@@ -1,7 +1,7 @@
 // a class that handles all preload functionality
 // to be loaded before any other scene in index.js!!
 
-import Phaser from 'phaser';
+// import Phaser from 'phaser';
 
 class Preload extends Phaser.Scene {
     
@@ -11,7 +11,7 @@ class Preload extends Phaser.Scene {
     
     // loads all assets into memory
     preload() {
-        this.load.image('logo', 'assets/logo.png');
+        this.load.image('logo', require('../assets/logo.png'));
     }
 
     // by default, loads the PlayScene after preloading assets
