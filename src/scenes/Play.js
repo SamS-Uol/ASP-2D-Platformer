@@ -7,12 +7,26 @@ class Play extends Phaser.Scene {
       
     create ()
     {
+        const map = this.createMap();
+        this.createLayers(map);
+    }
+
+    createMap() {
+        // create a tilemap from the json tile map named 'map' in the preload class
         const map = this.make.tilemap({key: 'crystal_world_map'});
-        const tileset1 = map.addTilesetImage('crystal_tileset_lev1', 'tiles-1');
+
+        // adding the image from preload class with the appropriate tileset name
+        map.addTilesetImage('crystal_tileset_lev1', 'tiles-1');
+
+        return map;
+    }
+
+    createLayers(map) {
+        const tileset1 = map.getTileset('crystal_tileset_lev1')
 
         // creating environment and platform layers from tileset
         // ORDER OF CODE MATTERS - environment layer is behind platforms layer
-        const platformsColliders = map.createStaticLayer('platforms_colliders', tileset1);
+        const platformsColliders = map.createLayer('platforms_colliders', tileset1);
         const environment = map.createLayer('environment', tileset1);
         const platforms = map.createLayer('platforms', tileset1);
 
