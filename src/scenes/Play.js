@@ -14,15 +14,11 @@ class Play extends Phaser.Scene {
     {
         const map = this.createMap();
         const layers = this.createLayers(map);
+        const player = this.createPlayer();
 
-        this.player = this.createPlayer();
-
-        // create collider between player and the platformColliders layer
-        // allows player to collided with the platformsColliders layer
-        this.physics.add.collider(this.player, layers.platformsColliders);
-
-        // create basic inputs for handling player movement
-        this.cursors = this.input.keyboard.createCursorKeys();
+        // custom function from the Player class that allows the
+        // player to collide with the platformsColliders layer
+        player.addCollider(layers.platformsColliders);
     }
 
     createMap() {

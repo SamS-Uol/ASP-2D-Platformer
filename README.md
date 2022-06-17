@@ -17,7 +17,7 @@ with object oriented and agile software practices, as well as git/version contro
 
 ## Controls
 
-- Use the arrows keys to move left and right, and space to jump
+- Use the arrows keys to move left and right, and space or the up arrow key to jump
 
 ## Screenshots
 
