@@ -4,8 +4,8 @@ University of London Group: cm2020-agil-t3g4-2gh's project for Agile Software Pr
 
 ## The Project
 
-This project is a 2D platformer game made in Phaser.js, and
-made with object oriented, agile software practices, and git/version control
+This project is a 2D platformer game made in Phaser.js. It's made 
+with object oriented and agile software practices, as well as git/version control.
 
 - contains tile based maps as levels
 - a player that can move left, right, jump, and collides appropriately with platforms
@@ -33,31 +33,31 @@ made with object oriented, agile software practices, and git/version control
 
 ## Specifications
 
-Project built with Phaser.js, Tiled, Node, and Github
-Phaser, version 3.50.0 - https://phaser.io/ 
-Tiled, version 1.8.5 - https://www.mapeditor.org/
-Node, version 16.15.1 - https://nodejs.org/en/
-Github repo - https://github.com/tzahiuol/agile-software-projects/tree/SamSherrod-patch-1
+- Project built with Phaser.js, Tiled, Node, and Github
+- Phaser, version 3.50.0 - https://phaser.io/ 
+- Tiled, version 1.8.5 - https://www.mapeditor.org/
+- Node, version 16.15.1 - https://nodejs.org/en/
+- Github repo - https://github.com/tzahiuol/agile-software-projects/tree/SamSherrod-patch-1
 
-Artwork created by szadiart.itch.io
-Artist states: "You can use this asset personally and commercially."
+-Artwork created by szadiart.itch.io
+-Artist states: "You can use this asset personally and commercially."
 
-References:
+## References:
 
-https://phaser.io/learn
-https://photonstorm.github.io/phaser3-docs/
-https://github.com/photonstorm/phaser3-project-template
-https://phaser.discourse.group/
-https://academy.zenva.com/
-https://www.youtube.com/user/WClarkson
-https://www.youtube.com/watch?v=69Sm2NbvlZ4 - Jonathon Cooper, Hosting your game on GitHub
-https://www.codecademy.com/learn/learn-phaser
-https://www.codecademy.com/learn/paths/create-video-games-with-phaser
-https://www.udemy.com/course/game-development-in-js-the-complete-guide-w-phaser-3/
-https://docs.github.com
-https://doc.mapeditor.org/en/stable/
+- https://phaser.io/learn
+- https://photonstorm.github.io/phaser3-docs/
+- https://github.com/photonstorm/phaser3-project-template
+- https://phaser.discourse.group/
+- https://academy.zenva.com/
+- https://www.youtube.com/user/WClarkson
+- https://www.youtube.com/watch?v=69Sm2NbvlZ4 - Jonathon Cooper, Hosting your game on GitHub
+- https://www.codecademy.com/learn/learn-phaser
+- https://www.codecademy.com/learn/paths/create-video-games-with-phaser
+- https://www.udemy.com/course/game-development-in-js-the-complete-guide-w-phaser-3/
+- https://docs.github.com
+- https://doc.mapeditor.org/en/stable/
 
-various other help articles from stack overflow and youtube
+- various other help articles from stack overflow and youtube
 
 ## To view the project:
 
