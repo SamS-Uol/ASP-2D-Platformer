@@ -1,10 +1,13 @@
-// imports files
-// Scenes are imported from scenes folder under src
-/****** import Phaser from 'phaser' should not be included
+/* A class that sets up the config paramater and creates
+a game with scenes that are loaded from each scene class
+
+Scenes are imported from scenes folder under src
+****** import Phaser from 'phaser' should not be included
         since phaser.min.js is in scripts folder and being
         loaded from index.html
-******/
+*******/
 
+// import the scenes to be loaded into the game
 import PlayScene from'./scenes/Play';
 import PreloadScene from'./scenes/Preload';
 
@@ -18,7 +21,9 @@ const SHARED_CONFIG = {
     height: HEIGHT,
 }
 
-// create array of scenes
+// create array of scenes, order matters! 
+// PreloadScene should be first to preload all assets into memory before
+// loading a scene
 const Scenes = [PreloadScene, PlayScene];
 
 // store the new Scene function into the variable createScene
@@ -38,12 +43,13 @@ const config = {
         // Arcade physics plugin, manages physics simulation
         default: 'arcade',
         arcade: {
-            debug: true // uncomment to turn debug mode on for all physics objects in scene
+            // debug: true // uncomment to turn debug mode on for all physics objects in scene
         }
     },
-    // loads whichever scenes are in the Scenes variable
+    // loads whichever scenes are in the Scenes array
     scene: initScenes()
 }
 
-// creates a new Phaser game with the config settings
+// creates a new Phaser game with the config settings from the Phaser.Game instance
+// responsible for setting up game, will not run without it
 new Phaser.Game(config)
