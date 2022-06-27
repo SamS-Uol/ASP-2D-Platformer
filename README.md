@@ -59,9 +59,10 @@ with object oriented and agile software practices, as well as git/version contro
 
 - various other help articles from stack overflow and youtube
 
-## To view the project:
+## To view the project from anywhere:
 
-Clone or download the repository https://github.com/tzahiuol/agile-software-projects/tree/gh-pages. This contains only the build files -index.js, and phaser.min.js, bundle.min.js (build file), as well as a folder containing all of the assets and a scripts folder containing phaser.min.js
+Go to https://tzahiuol.github.io/agile-software-projects/ to view and access it directly.
+This is loaded from the gh-pages branch that contains only the build files.
 
 ## To edit the project:
 

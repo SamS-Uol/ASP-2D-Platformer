@@ -11,14 +11,39 @@ Scenes are imported from scenes folder under src
 import PlayScene from'./scenes/Play';
 import PreloadScene from'./scenes/Preload';
 
+// size of map, may be bigger than width of document.body
+const MAP_WIDTH = 1600;
+
 // width and height of the scene - change here to adjust size of scene
-const WIDTH = 1600;
-const HEIGHT = 640;
+// const WIDTH = document.body.offsetWidth
+// const HEIGHT = document.body.height;
+const WIDTH= window.innerWidth * window.devicePixelRatio;
+const HEIGHT= window.innerHeight * window.devicePixelRatio;
+
+
+/* offsetWidth is a measurement in pixels of the element's CSS width,
+ including any borders, padding, and vertical scrollbars (if rendered).
+ https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetWidth
+*/
+
 
 // create a custom config object that can be shared between all scenes
+/*
+ mapOffset is the area outside of what's shown on the screen - since
+ the canvas width is not as large as the map_width, the camera will need
+ access to the rest of the width of the map to scroll properly. If the
+ MAP_WIDTH is 1600px, and the width of the document.body is 1280px, then
+ the mapOffset is 320px
+
+ mapOffset is equal to the value from the ternary operation. Same as
+ if (MAP_WIDTH > WIDTH) MAP_WIDTH - width;
+ else 0;
+*/ 
 const SHARED_CONFIG = {
+    mapOffset: MAP_WIDTH > WIDTH ? MAP_WIDTH - WIDTH : 0,
     width: WIDTH,
     height: HEIGHT,
+    zoomFactor: 2,
 }
 
 // create array of scenes, order matters! 
@@ -39,6 +64,11 @@ const config = {
     ...SHARED_CONFIG,
     //keeps pixel art crisp
     pixelArt: true,
+    // scale: {
+    //     mode: Phaser.Scale.FIT,
+    //     parent: 'phaser-example',
+    //     autoCenter: Phaser.Scale.CENTER_BOTH
+    // },
     physics: {
         // Arcade physics plugin, manages physics simulation
         default: 'arcade',

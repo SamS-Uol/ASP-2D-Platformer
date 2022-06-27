@@ -5,8 +5,9 @@
 import Player from '../Player.js';
 
 class Play extends Phaser.Scene {
-    constructor() {
+    constructor(config) {
         super('PlayScene');
+        this.config = config;
     }
       
     // sets up the game
@@ -19,6 +20,8 @@ class Play extends Phaser.Scene {
         // custom function from the Player class that allows the
         // player to collide with the platformsColliders layer
         player.addCollider(layers.platformsColliders);
+
+        this.setupCameraToFollow(player);
     }
 
     createMap() {
@@ -58,6 +61,17 @@ class Play extends Phaser.Scene {
     // creates the player from a new instance of the player class
     createPlayer() {
         return new Player(this, 50, 80);
+    }
+
+    setupCameraToFollow(player) {
+        const {mapOffset, width, height, zoomFactor} = this.config;
+
+        this.physics.world.setBounds(0, 0, width + mapOffset, height);
+        const mainCamera = this.cameras.main;
+        mainCamera.startFollow(player);
+        mainCamera.setBounds(0, 0, width + mapOffset, height);
+        mainCamera.setZoom(zoomFactor);
+        return mainCamera;
     }
 }
 
