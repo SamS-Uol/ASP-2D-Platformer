@@ -75,7 +75,6 @@ This is loaded from the gh-pages branch that contains only the build files.
 - INSERT CODE IN BETWEEN npm start AND npm build to edit project files
 
 - running npm start will delete the dist folder (the build folder) so type npm run build to recreate the dist folder and re-build it
-- *** VERY IMPORTANT - COPY the asset folder and the scripts folder into the dist folder now that the dist folder is created. It should contain two folders (assets and scripts) and two files (bundle.min.js, and index.html)
 - you can view the project now with your updated changes and it being rebuilt by clicking on the Live Preview button in Brackets or the Go Live button in Visual Studio for instance without typing npm start
 
 
