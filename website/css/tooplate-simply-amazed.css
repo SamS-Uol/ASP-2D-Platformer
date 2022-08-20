@@ -619,6 +619,16 @@ textarea.form-control {
 
 .bg-blue-transparent { background-color: rgb(102 153 204 / 0.8); }
 
+.click-play {
+  color: #ffccff;
+  text-transform: uppercase;
+  font-size: 27px;
+  letter-spacing: -1px;
+  margin-bottom: 9px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  cursor:pointer;
+}
+
 .banner-section .logo-fa {  
   color: #fff;
   max-width: 400px;

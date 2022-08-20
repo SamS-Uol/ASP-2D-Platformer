@@ -87,12 +87,29 @@ https://www.tooplate.com/view/2123-simply-amazed
 
             <section class="gallery-section section parallax-window" data-parallax="scroll" data-image-src="img/section-3-bg.jpg" id="section-3">
                 <div class="container">
-                </div>
-                <div class="full-width">
-                    <iframe src="https://tzahiuol.github.io/agile-software-projects/game/dist/index.html"></iframe>
+                    <div class="item">
+                        <div class="click-play" ><h3 id="play-button">Click here to start playing!</h3></div>
+                    </div>
                 </div>
             </section>
-        </main>
+        </main>  
+  <!-- Modal -->
+  <div class="modal fade" id="gameModal" tabindex="-1" aria-labelledby="gameModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="gameModalLabel">The Game!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <iframe src="https://tzahiuol.github.io/agile-software-projects/game/dist/"></iframe>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
     </div>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
@@ -100,5 +117,6 @@ https://www.tooplate.com/view/2123-simply-amazed
     <script src="js/slick.js"></script>
     <script src="js/parallax.min.js"></script>
     <script src="js/templatemo-script.js"></script>
+    <script src="js/modal.js"></script>
 </body>
 </html>
