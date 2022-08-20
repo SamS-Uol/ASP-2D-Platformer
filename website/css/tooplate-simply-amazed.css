@@ -1133,3 +1133,7 @@ figure.effect-julia:hover p {
 
   .contact-details { margin-bottom: 50px!important; }
 }
+
+.modal-body iframe {
+  width:100%;
+}
