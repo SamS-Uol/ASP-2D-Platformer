@@ -15,11 +15,15 @@ class Play extends Phaser.Scene {
     {
         const map = this.createMap();
         const layers = this.createLayers(map);
-        const player = this.createPlayer();
+        const playerZones = this.getPlayerZones(layers.playerZones);
+        const player = this.createPlayer(playerZones);
 
-        // custom function from the Player class that allows the
-        // player to collide with the platformsColliders layer
-        player.addCollider(layers.platformsColliders);
+        // custom function that allows the player to collide with any layer
+        this.createPlayerColliders(player, {
+            colliders: {
+                platformsColliders: layers.platformsColliders
+            }
+        });
 
         this.setupCameraToFollow(player);
     }
@@ -47,6 +51,7 @@ class Play extends Phaser.Scene {
         const platformsColliders = map.createLayer('platforms_colliders', tileset1);
         const environment = map.createLayer('environment', tileset1);
         const platforms = map.createLayer('platforms', tileset1);
+        const playerZones = map.getObjectLayer('player_zones');
 
         // https://phaser.io/examples/v3/view/tilemap/set-colliding-by-property
         // Instead of setting collision by index, you can set collision via properties that you set up
@@ -55,23 +60,39 @@ class Play extends Phaser.Scene {
         // so by seting this layer to collides: true, every tile in this layer is collidable
         platformsColliders.setCollisionByProperty({collides: true});
 
-        return { environment, platforms, platformsColliders };
+        return { environment, platforms, platformsColliders, playerZones };
     }
 
     // creates the player from a new instance of the player class
-    createPlayer() {
-        return new Player(this, 50, 80);
+    createPlayer({start}) {
+        debugger
+        return new Player(this, start.x, start.y);
     }
 
-    setupCameraToFollow(player) {
-        const {mapOffset, width, height, zoomFactor} = this.config;
+    // adds colliders to player based on collider arguments
+    createPlayerColliders(player, { colliders }) {
+        player.addCollider(colliders.platformsColliders)
+    }
 
-        this.physics.world.setBounds(0, 0, width + mapOffset, height);
+    // creates camera that follows player, size of camera is confined to the
+    // maps width and height. Parameters are defined in config in index.js
+    setupCameraToFollow(player) {
+        const {mapWidth, mapHeight, zoomFactor} = this.config;
+
+        this.physics.world.setBounds(0, 0, mapWidth, mapHeight + 200);
         const mainCamera = this.cameras.main;
-        mainCamera.startFollow(player);
-        mainCamera.setBounds(0, 0, width + mapOffset, height);
+        mainCamera.setBounds(0, 0, mapWidth, mapHeight);
         mainCamera.setZoom(zoomFactor);
+        mainCamera.startFollow(player);
         return mainCamera;
+    }
+
+    getPlayerZones(playerZonesLayer) {
+        const playerZones = playerZonesLayer.objects;
+        return {
+            start: playerZones.find(zone => zone.name === 'startZone'),
+            end: playerZones.find(zone => zone.name === 'endZone')
+        }
     }
 }
 

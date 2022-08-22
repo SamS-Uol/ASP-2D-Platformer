@@ -5,6 +5,8 @@ with an Arcade Physics body and related components.*/
 
 // import player animations
 import initAnimations from './playerAnims';
+// import collidable function from collidable.js
+import collidable from './mixins/collidable';
 
 class Player extends Phaser.Physics.Arcade.Sprite {
     // creates a player object with the 'player' key image from the preload class
@@ -16,6 +18,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         // add the physics rules to this arcade sprite
         scene.physics.add.existing(this);
+
+        // MIXINS
+        // Copies the collidable function from the collidable object in 
+        // collidable.js to the player object, and returns the player object
+        Object.assign(this, collidable);
 
         this.init();
         this.initEvents();
@@ -44,6 +51,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.body.setGravityY(this.gravity);
         // ensures the player cannot move past the edges of the map
         this.setCollideWorldBounds(true);
+        //sets origin of the sprite to be the in the middle and bottom so that it collides properly
+        this.setOrigin(0.5,1);
 
         // call to create player animations from playerAnims.js
         initAnimations(this.scene.anims);
@@ -118,11 +127,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.play('idle', true);
         } else
             this.play('jump', true);
-    }
-
-    // create a collider between player and collision object
-    addCollider(collisionObject, callback) {
-        this.scene.physics.add.collider(this, collisionObject, callback, null, this);
     }
 }
 
