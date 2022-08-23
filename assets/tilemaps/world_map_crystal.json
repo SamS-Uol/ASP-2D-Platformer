@@ -158,31 +158,31 @@
         {
          "draworder":"topdown",
          "id":5,
-         "name":"player_zones",
+         "name":"player_spawns",
          "objects":[
                 {
                  "height":0,
                  "id":1,
-                 "name":"startZone",
+                 "name":"sceneEntrance",
                  "point":true,
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":1472,
-                 "y":224
+                 "x":48,
+                 "y":320
                 }, 
                 {
                  "height":0,
                  "id":2,
-                 "name":"endZone",
+                 "name":"sceneExit",
                  "point":true,
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":752,
-                 "y":288
+                 "x":1600,
+                 "y":240
                 }],
          "opacity":1,
          "type":"objectgroup",
