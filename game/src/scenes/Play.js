@@ -101,7 +101,7 @@ class Play extends Phaser.Scene {
         })
     }
 
-    // creates camera that follows player, size of camera is confined to the
+    // creates main camera that follows player, size of camera is confined to the
     // maps width and height. Parameters are defined in config in index.js
     setupCameraToFollow(player) {
         const {mapWidth, mapHeight, zoomFactor} = this.config;
