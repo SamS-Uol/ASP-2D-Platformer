@@ -169,7 +169,7 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":272,
+                 "x":48,
                  "y":320
                 }, 
                 {
@@ -216,8 +216,8 @@
                  "type":"PlagueDoctor",
                  "visible":true,
                  "width":0,
-                 "x":880,
-                 "y":320
+                 "x":1040,
+                 "y":560
                 }, 
                 {
                  "height":0,
@@ -229,7 +229,7 @@
                  "visible":true,
                  "width":0,
                  "x":1040,
-                 "y":560
+                 "y":240
                 }],
          "opacity":1,
          "type":"objectgroup",
