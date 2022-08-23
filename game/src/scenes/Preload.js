@@ -14,8 +14,13 @@ class Preload extends Phaser.Scene {
         // loads the original artwork
         this.load.image('tiles-1', 'assets/art_maps/crystal_world/main_lev_build_1.png')
     
-        // loads the movement sprites and slices sheet into frames with required properties
+        // loads the player sprite sheet
         this.load.spritesheet('player','assets/characters/Gino Character/PNG/idle,run,jump_sheet.png', {
+            frameWidth: 32, frameHeight: 64, spacing: 32
+        });
+
+        // loads the plagueDoctor sprite sheet
+        this.load.spritesheet('plagueDoctor','assets/characters/Enemy04/enemy04_sheet.png', {
             frameWidth: 32, frameHeight: 64, spacing: 32
         });
     }

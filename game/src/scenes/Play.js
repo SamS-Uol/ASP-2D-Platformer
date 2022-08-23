@@ -2,7 +2,8 @@
 // creates tilemap, tile layers, and player
 
 // imports the Player class to create a new player
-import Player from '../Player.js';
+import PlagueDoctor from '../Characters/Enemies/PlagueDoctor.js';
+import Player from '../Characters/Player/Player.js';
 
 class Play extends Phaser.Scene {
     constructor(config) {
@@ -15,8 +16,9 @@ class Play extends Phaser.Scene {
     {
         const map = this.createMap();
         const layers = this.createLayers(map);
-        const playerZones = this.getPlayerZones(layers.playerZones);
-        const player = this.createPlayer(playerZones);
+        const playerSpawns = this.getPlayerSpawns(layers.playerSpawns);
+        const player = this.createPlayer(playerSpawns.sceneEntrance);
+        const enemy = this.createEnemy();
 
         // custom function that allows the player to collide with any layer
         this.createPlayerColliders(player, {
@@ -25,6 +27,16 @@ class Play extends Phaser.Scene {
             }
         });
 
+        // custom function that allows the player to collide with any layer
+        this.createEnemyColliders(enemy, {
+            colliders: {
+                platformsColliders: layers.platformsColliders,
+                player
+            }
+        });
+        
+
+        this.createSceneExit(playerSpawns.sceneExit, player)
         this.setupCameraToFollow(player);
     }
 
@@ -51,7 +63,7 @@ class Play extends Phaser.Scene {
         const platformsColliders = map.createLayer('platforms_colliders', tileset1);
         const environment = map.createLayer('environment', tileset1);
         const platforms = map.createLayer('platforms', tileset1);
-        const playerZones = map.getObjectLayer('player_zones');
+        const playerSpawns = map.getObjectLayer('player_spawns');
 
         // https://phaser.io/examples/v3/view/tilemap/set-colliding-by-property
         // Instead of setting collision by index, you can set collision via properties that you set up
@@ -60,18 +72,28 @@ class Play extends Phaser.Scene {
         // so by seting this layer to collides: true, every tile in this layer is collidable
         platformsColliders.setCollisionByProperty({collides: true});
 
-        return { environment, platforms, platformsColliders, playerZones };
+        return { environment, platforms, platformsColliders, playerSpawns };
     }
 
     // creates the player from a new instance of the player class
-    createPlayer({start}) {
-        debugger
-        return new Player(this, start.x, start.y);
+    createPlayer(sceneEntrance) {
+        return new Player(this, sceneEntrance.x, sceneEntrance.y);
+    }
+
+    createEnemy() {
+        return new PlagueDoctor(this, 200, 200);
     }
 
     // adds colliders to player based on collider arguments
     createPlayerColliders(player, { colliders }) {
-        player.addCollider(colliders.platformsColliders)
+        player.addCollider(colliders.platformsColliders);
+    }
+
+    // adds colliders to enemies based on collider arguments
+    createEnemyColliders(enemy, { colliders }) {
+        enemy
+            .addCollider(colliders.platformsColliders)
+            .addCollider(colliders.player);
     }
 
     // creates camera that follows player, size of camera is confined to the
@@ -87,12 +109,23 @@ class Play extends Phaser.Scene {
         return mainCamera;
     }
 
-    getPlayerZones(playerZonesLayer) {
-        const playerZones = playerZonesLayer.objects;
+    getPlayerSpawns(playerSpawnLayer) {
+        const playerSpawns = playerSpawnLayer.objects;
         return {
-            start: playerZones.find(zone => zone.name === 'startZone'),
-            end: playerZones.find(zone => zone.name === 'endZone')
+            sceneEntrance: playerSpawns.find(spawn => spawn.name === 'sceneEntrance'),
+            sceneExit: playerSpawns.find(spawn => spawn.name === 'sceneExit')
         }
+    }
+
+    createSceneExit(exit, player) {
+        const endOfScene = this.physics.add.sprite(exit.x, exit.y, 'sceneExit')
+            .setSize(5, this.config.height * 2)
+            .setOrigin(0.5, 1)
+            .setAlpha(0);
+
+        this.physics.add.overlap(player, endOfScene, () => {
+            console.log("player should transition to next scene");
+        });
     }
 }
 
