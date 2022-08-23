@@ -18,7 +18,7 @@ class Play extends Phaser.Scene {
         const layers = this.createLayers(map);
         const playerSpawns = this.getPlayerSpawns(layers.playerSpawns);
         const player = this.createPlayer(playerSpawns.sceneEntrance);
-        const enemy = this.createEnemy();
+        const enemies = this.createEnemies(layers.enemySpawns);
 
         // custom function that allows the player to collide with any layer
         this.createPlayerColliders(player, {
@@ -28,7 +28,7 @@ class Play extends Phaser.Scene {
         });
 
         // custom function that allows the player to collide with any layer
-        this.createEnemyColliders(enemy, {
+        this.createEnemyColliders(enemies, {
             colliders: {
                 platformsColliders: layers.platformsColliders,
                 player
@@ -64,6 +64,7 @@ class Play extends Phaser.Scene {
         const environment = map.createLayer('environment', tileset1);
         const platforms = map.createLayer('platforms', tileset1);
         const playerSpawns = map.getObjectLayer('player_spawns');
+        const enemySpawns = map.getObjectLayer('enemy_spawns');
 
         // https://phaser.io/examples/v3/view/tilemap/set-colliding-by-property
         // Instead of setting collision by index, you can set collision via properties that you set up
@@ -72,7 +73,7 @@ class Play extends Phaser.Scene {
         // so by seting this layer to collides: true, every tile in this layer is collidable
         platformsColliders.setCollisionByProperty({collides: true});
 
-        return { environment, platforms, platformsColliders, playerSpawns };
+        return { environment, platforms, platformsColliders, playerSpawns, enemySpawns };
     }
 
     // creates the player from a new instance of the player class
@@ -80,8 +81,10 @@ class Play extends Phaser.Scene {
         return new Player(this, sceneEntrance.x, sceneEntrance.y);
     }
 
-    createEnemy() {
-        return new PlagueDoctor(this, 200, 200);
+    createEnemies(spawnLayer) {
+        return spawnLayer.objects.map(spawnPoint => {
+            return new PlagueDoctor(this, spawnPoint.x, spawnPoint.y);
+        })
     }
 
     // adds colliders to player based on collider arguments
@@ -90,10 +93,12 @@ class Play extends Phaser.Scene {
     }
 
     // adds colliders to enemies based on collider arguments
-    createEnemyColliders(enemy, { colliders }) {
-        enemy
+    createEnemyColliders(enemies, { colliders }) {
+        enemies.forEach(enemy => {
+            enemy
             .addCollider(colliders.platformsColliders)
             .addCollider(colliders.player);
+        })
     }
 
     // creates camera that follows player, size of camera is confined to the
