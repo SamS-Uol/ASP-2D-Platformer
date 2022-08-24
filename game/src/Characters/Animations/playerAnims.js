@@ -27,7 +27,15 @@ export default anims => {
     
     anims.create({
         // run animation from frames 17 - 23 from idle,run,jump_sheet.png
-        key: 'jump',
+        key: 'jump1',
+        frames: anims.generateFrameNumbers('player', {start: 17, end: 23}),
+        frameRate: 2, // executes animation per second
+        repeat: 1 // runs only once
+    })
+
+    anims.create({
+        // run animation from frames 17 - 23 from idle,run,jump_sheet.png
+        key: 'jump2',
         frames: anims.generateFrameNumbers('player', {start: 17, end: 23}),
         frameRate: 2, // executes animation per second
         repeat: 1 // runs only once

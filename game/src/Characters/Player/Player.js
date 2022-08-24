@@ -35,11 +35,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.jumpForce = 300;
 
         // tracks if you've jumped, only incremented when player has jumped
-        // starts at 1 
-        this.jumpCount = 1;
-        // maximum number of jumps player can have in air
-        this.maxJumps = 2;
-
+        this.extraJumps = 2;
 
         // create basic inputs for handling player movement
         // Documentation: Creates and returns an object containing 4 hotkeys
@@ -70,38 +66,47 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     // when extending from an arcade sprite super class, you must provide time, delta paramaters
     // necessary for updating sprite animation properly in preUpdate
     update(time, delta) {
-        this.handleMovementControls(time, delta);
+        this.handlePlayerControls(time, delta);
     }
 
-    handleMovementControls(time, delta) {
+    handlePlayerControls(time, delta) {
         // Game CONTROLS
         // handling player movement, add movement properties here
-        const { left, right, space, up } = this.cursors;
-        // The justDown value allows you to test if this Key has just been pressed down or not.
-        // ensuers space and up keys are just pressed one time, - necessray for creating
-        // multiple jumps in the air like double jump
-        const isSpaceButJustDown = Phaser.Input.Keyboard.JustDown(space);
-        const isUpButJustDown = Phaser.Input.Keyboard.JustDown(up);
+        const { left, right, space, up} = this.cursors;
 
-        // if the player's body is touching a tile or the world boundary while moving down.
-        const onFloor = this.body.onFloor();
+        this.handleMovement(left, right);
+        this.handleJump(space, up);
+        this.handleJumpLogic();
+    }
 
+    handleMovement(left, right) {
         /* moves player left, right, or stops
-            flips character when pressing left or right
-            plays idle or run animations depending on the velocity
-                second paramater of play is ignoreIfPlaying
-                @param ignoreIfPlaying — If an animation is already playing
-                then ignore this call.
+           flips character when pressing left or right
+           plays idle or run animations depending on the velocity
+               second paramater of play is ignoreIfPlaying
+               @param ignoreIfPlaying — If an animation is already playing
+               then ignore this call.
         */
-        if (left.isDown) {
+
+        const aKey = this.scene.input.keyboard.addKey('A');
+        const dKey = this.scene.input.keyboard.addKey('D');
+
+        if (left.isDown || aKey.isDown) {
             this.setVelocityX(-this.playerSpeed);
             this.setFlipX(true);
-        } else if (right.isDown) {
+        } else if (right.isDown|| dKey.isDown) {
             this.setVelocityX(this.playerSpeed);
             this.setFlipX(false);
         } else {
             this.setVelocityX(0);
         }
+    }
+
+    handleJump(space, up) {
+
+        // The justDown value allows you to test if this Key has just been pressed down or not.
+        // ensures space and up keys are just pressed one time, - necessray for creating
+        // multiple jumps in the air like double jump
 
         /* if space key OR up arrow key has just been pressed down
            AND
@@ -111,25 +116,46 @@ class Player extends Phaser.Physics.Arcade.Sprite {
            if space.isDown or up.isDown is replaced, update will call it multiple times
            as long as the buttons are pressed down, JustDown(space) will call it only once
          */
-        if ((isSpaceButJustDown || isUpButJustDown) &&
-            (this.jumpCount < this.maxJumps)) {
-            this.setVelocityY(-this.jumpForce);
-            this.jumpCount++;
-        }
+        // if the player's body is touching a tile or the world boundary while moving down.
 
-        // resets jumpCount when player collides back with a tile or world boundary when moving down
-        if (onFloor) {
-            this.jumpCount = 1;
+        const isSpaceButJustDown = Phaser.Input.Keyboard.JustDown(space);
+        const isUpButJustDown = Phaser.Input.Keyboard.JustDown(up);
+        const isWButJustDown = Phaser.Input.Keyboard.JustDown(this.scene.input.keyboard.addKey("W"));
+
+        if ((isSpaceButJustDown || isUpButJustDown || isWButJustDown) &&
+            (this.extraJumps > 0)) {
+                console.log("can jump")
+            this.setVelocityY(-this.jumpForce);
+            this.extraJumps--;
+            console.log("extraJumps is " + this.extraJumps);
         }
+    }
+
+    handleJumpLogic(space, up) {
+        const onFloor = this.body.onFloor();
 
         // logic for handling player animations
-        if (onFloor) {
+        if (onFloor)
+        {
+            // resets jumpCount when player collides back with a tile or world boundary when moving down
+            // and if the extra jumps have been used
+            /* BUG HERE, this.extraJumps should just be reset, problem seems to be with onFloor.
+               Maybe there is a bug with Phaser. Tried multiple ways to get around it, and still
+               keep running into problem.
+                    BUG is that when you jump once and land, animation plays correctly, When you
+                    jump again and this.extraJumps = 0, the animation does not play */
+            if (this.extraJumps === 0) this.extraJumps = 2;
+
             if (this.body.velocity.x !== 0)
                 this.play('run', true);
             else
                 this.play('idle', true);
-        } else
-            this.play('jump', true);
+        } 
+        else
+        {
+            if (this.extraJumps === 1) this.play('jump1', true);
+            else if (this.extraJumps === 0) this.play('jump2', true);
+        }
     }
 }
 

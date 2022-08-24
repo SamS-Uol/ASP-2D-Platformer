@@ -1,1 +1,14 @@
-**/node_modules
+# Thumbs.db
+.DS_Store
+.idea
+*.suo
+*.sublime-project
+*.sublime-workspace
+*.vscode
+
+# Vendors
+node_modules/
+
+# Build
+dist/
+/npm-debug.log
