@@ -21,7 +21,7 @@ with object oriented and agile software practices, as well as git/version contro
 
 ## Screenshots
 
-![sample_level_screenshot](/assets/screenshots/2d_platformer_sample_img.png)
+![sample_level_screenshot](/game/assets/screenshots/2d_platformer_sample_img.png)
 
 ## More features to come!
 
@@ -53,6 +53,7 @@ with object oriented and agile software practices, as well as git/version contro
 - https://academy.zenva.com/
 - https://www.youtube.com/c/WiLDDesigns
 - https://www.youtube.com/user/WClarkson
+- https://www.youtube.com/watch?v=QGDeafTx5ug&t=604s - Blackthornprod - Double Jump
 - https://phasergames.com/
 - https://www.youtube.com/watch?v=69Sm2NbvlZ4 - Jonathon Cooper, Hosting your game on GitHub
 - https://www.codecademy.com/learn/learn-phaser
