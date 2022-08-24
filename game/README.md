@@ -37,7 +37,7 @@ with object oriented and agile software practices, as well as git/version contro
 - Phaser, version 3.50.0 - https://phaser.io/ 
 - Tiled, version 1.8.5 - https://www.mapeditor.org/
 - Node, version 16.15.1 - https://nodejs.org/en/
-- Github repo - https://github.com/tzahiuol/agile-software-projects/tree/SamSherrod-patch-1
+- Github repo - https://github.com/tzahiuol/agile-software-projects/
 
 -Artwork created by szadiart.itch.io
 -Artist states: "You can use this asset personally and commercially."
@@ -45,28 +45,42 @@ with object oriented and agile software practices, as well as git/version contro
 ## References:
 
 - https://phaser.io/learn
+- https://phaser.io/examples
+- https://rexrainbow.github.io/phaser3-rex-notes/docs/site/
 - https://photonstorm.github.io/phaser3-docs/
 - https://github.com/photonstorm/phaser3-project-template
 - https://phaser.discourse.group/
 - https://academy.zenva.com/
+- https://www.youtube.com/c/WiLDDesigns
 - https://www.youtube.com/user/WClarkson
+- https://phasergames.com/
 - https://www.youtube.com/watch?v=69Sm2NbvlZ4 - Jonathon Cooper, Hosting your game on GitHub
 - https://www.codecademy.com/learn/learn-phaser
 - https://www.codecademy.com/learn/paths/create-video-games-with-phaser
+- https://www.codecademy.com/learn/introduction-to-javascript
+- https://www.codecademy.com/learn/learn-intermediate-javascript
+- https://www.codecademy.com/learn/javascript-errors-debugging
+- https://www.udemy.com/course/cpp-fundamentals/
+- https://www.udemy.com/course/unitycourse/
 - https://www.udemy.com/course/game-development-in-js-the-complete-guide-w-phaser-3/
+- https://learn.unity.com/course/beginning-2d-game-development
+- https://learn.unity.com/project/2d-platformer-template
+- https://learn.unity.com/project/ruby-s-2d-rpg
+- https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_breakout_game_Phaser
 - https://docs.github.com
 - https://doc.mapeditor.org/en/stable/
+- https://www.youtube.com/watch?v=ZwaomOYGuYo, https://www.youtube.com/watch?v=SIYNuXdDClU
 
 - various other help articles from stack overflow and youtube
 
 ## To view the project from anywhere:
 
-Go to https://tzahiuol.github.io/agile-software-projects/ to view and access it directly.
-This is loaded from the gh-pages branch that contains only the build files.
+Go to https://tzahiuol.github.io/agile-software-projects/website to view and access it directly.
+Upon clicking the game link (section #3) game/dist is loaded from the gh-pages branch that contains only the build files.
 
 ## To edit the project:
 
-- Clone or download repository from https://github.com/tzahiuol/agile-software-projects/tree/SamSherrod-patch-1
+- Clone or download repository from https://github.com/tzahiuol/agile-software-projects/website
 - go to command line in root folder, agile-software-projects
 - install node_modules if it is not already installed (npm install)
 

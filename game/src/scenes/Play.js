@@ -1,9 +1,8 @@
-// class that sets up the game functionality
-// creates tilemap, tile layers, and player
+// class that sets up the main game functionality
+// creates initial scene, tilemap, tile layers, player and enemies
 
-// imports the Player class to create a new player
-import PlagueDoctor from '../Characters/Enemies/PlagueDoctor.js';
 import Player from '../Characters/Player/Player.js';
+import Enemies from '../Characters/Enemies/Enemies.js';
 
 class Play extends Phaser.Scene {
     constructor(config) {
@@ -38,6 +37,29 @@ class Play extends Phaser.Scene {
 
         this.createSceneExit(playerSpawns.sceneExit, player)
         this.setupCameraToFollow(player);
+
+        this.enableFullScreenMode();
+    }
+
+    // https://phaser.io/examples/v3/view/input/keyboard/single-keydown-event
+    // https://rexrainbow.github.io/phaser3-rex-notes/docs/site/fullscreen/
+    // enables or disables full screen mode - press Z to activate
+    // contains error handling in the event that enabling fullscreen does not work
+    enableFullScreenMode() {
+        this.input.keyboard.on('keydown-Z', function (event) {
+            try {
+                if (this.scene.scale.isFullscreen) {
+                    this.scene.scale.stopFullscreen();
+                    // On stop fulll screen
+                } else {
+                    this.scene.scale.startFullscreen();
+                    // On start fulll screen
+                }
+            }
+            catch(err) {
+                console.log('Error is ' + err);
+            }
+        });
     }
 
     createMap() {
@@ -81,24 +103,35 @@ class Play extends Phaser.Scene {
         return new Player(this, sceneEntrance.x, sceneEntrance.y);
     }
 
+    /* Creates an array of all enemies regardless of the type in order
+      to be able to group all enemies together.
+      At each iterated spawnPoint in the enemySpawns layer, looks up the keys of each
+      enemyType by accessing the enemy's spawnPoint.type, and then creates a new enemy
+      of that type at that enemy's spawnPoint.x/.y properties. It then adds each enemy
+      to an array and returns that array in order to be able to group all enemies together.
+    */
     createEnemies(spawnLayer) {
-        return spawnLayer.objects.map(spawnPoint => {
-            return new PlagueDoctor(this, spawnPoint.x, spawnPoint.y);
+        const enemies = new Enemies(this);
+        const enemyTypes = enemies.getTypes();
+
+        spawnLayer.objects.forEach(spawnPoint => {
+            const enemy = new enemyTypes[spawnPoint.type](this, spawnPoint.x, spawnPoint.y);
+            enemies.add(enemy);
         })
+
+        return enemies;
     }
 
-    // adds colliders to player based on collider arguments
+    // adds colliders to player
     createPlayerColliders(player, { colliders }) {
         player.addCollider(colliders.platformsColliders);
     }
 
-    // adds colliders to enemies based on collider arguments
+    // adds colliders to the group of enemies
     createEnemyColliders(enemies, { colliders }) {
-        enemies.forEach(enemy => {
-            enemy
+        enemies
             .addCollider(colliders.platformsColliders)
             .addCollider(colliders.player);
-        })
     }
 
     // creates main camera that follows player, size of camera is confined to the

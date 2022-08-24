@@ -29,7 +29,7 @@ export const DPR = roundHalf(window.devicePixelRatio)
 // const HEIGHT= window.innerHeight * window.devicePixelRatio - 16;
 
 // https://phaser.discourse.group/t/how-many-pixels-wondering-about-target-resolution/4456/14
-// base resolution is 480x270 @4
+// base resolution is 480x270 @4 = 1920x1080
 const isMobile = () => Math.min(window.screen.width, window.screen.height) <= 270;
 const WIDTH = 480 * (isMobile() ? DPR : 4);
 const HEIGHT = 270 * (isMobile() ? DPR : 4);
@@ -66,6 +66,7 @@ const config = {
         default: 'arcade',
         arcade: {
             // debug: true // uncomment to turn debug mode on for all physics objects in scene
+            // for testing purposes
         }
     },
     scale: {

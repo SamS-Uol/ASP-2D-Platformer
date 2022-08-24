@@ -4,9 +4,9 @@ Documention: An Arcade Physics Sprite is a Sprite
 with an Arcade Physics body and related components.*/
 
 // import player animations
-import initAnimations from './playerAnims';
+import initAnimations from '../Animations/playerAnims';
 // import collidable function from collidable.js
-import collidable from '../../mixins/collidable';
+import collidable from '../../ExtendedFeatures/collidable';
 
 class Player extends Phaser.Physics.Arcade.Sprite {
     // creates a player object with the 'player' key image from the preload class
@@ -19,7 +19,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // add the physics rules to this arcade sprite
         scene.physics.add.existing(this);
 
-        // MIXINS
         // Copies the collidable function from the collidable object in 
         // collidable.js to the player object, and returns the player object
         Object.assign(this, collidable);
@@ -123,6 +122,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.jumpCount = 1;
         }
 
+        // logic for handling player animations
         if (onFloor) {
             if (this.body.velocity.x !== 0)
                 this.play('run', true);
