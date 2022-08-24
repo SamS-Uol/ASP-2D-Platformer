@@ -16,8 +16,8 @@ import PreloadScene from'./scenes/Preload';
 const MAP_WIDTH = 1600;
 const MAP_HEIGHT = 640;
 
-// const roundHalf = num => Math.round(num * 2) / 2
-// export const DPR = roundHalf(window.devicePixelRatio)
+const roundHalf = num => Math.round(num * 2) / 2
+export const DPR = roundHalf(window.devicePixelRatio)
 // const { width, height } = window.screen
 
 // // base resolution is 360x640 @4
@@ -28,7 +28,9 @@ const MAP_HEIGHT = 640;
 // const WIDTH = window.innerWidth * window.devicePixelRatio - 16;
 // const HEIGHT= window.innerHeight * window.devicePixelRatio - 16;
 
-const isMobile = () => Math.min(window.screen.width, window.screen.height) <= 480;
+// https://phaser.discourse.group/t/how-many-pixels-wondering-about-target-resolution/4456/14
+// base resolution is 480x270 @4
+const isMobile = () => Math.min(window.screen.width, window.screen.height) <= 270;
 const WIDTH = 480 * (isMobile() ? DPR : 4);
 const HEIGHT = 270 * (isMobile() ? DPR : 4);
 
