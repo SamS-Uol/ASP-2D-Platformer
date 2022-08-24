@@ -1,13 +1,12 @@
-// a class that handles all preload functionality
-// to be loaded before any other scene in index.js!!
-
+/** A class that handles all preload functionality to be loaded before
+ *  any other scene in index.js!! */
 class Preload extends Phaser.Scene {
     
     constructor() {
         super('PreloadScene');
     }
     
-    // loads all assets into memory
+    /** loads all assets into memory */
     preload() {
         // loads tilemap json file - look up json file for detailed info
         this.load.tilemapTiledJSON('crystal_world_map', 'assets/tilemaps/world_map_crystal.json');
@@ -25,7 +24,7 @@ class Preload extends Phaser.Scene {
         });
     }
 
-    // by default, loads the PlayScene after preloading assets
+    /** By default, starts the PlayScene after preloading assets */
     create() {
         this.scene.start('PlayScene');
     }

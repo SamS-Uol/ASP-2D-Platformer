@@ -1,4 +1,4 @@
-/* A class that sets up the config paramater and creates
+/* An index file that sets up the config paramater and creates
 a game with scenes that are loaded from each scene class
 
 Scenes are imported from scenes folder under src
@@ -18,15 +18,6 @@ const MAP_HEIGHT = 640;
 
 const roundHalf = num => Math.round(num * 2) / 2
 export const DPR = roundHalf(window.devicePixelRatio)
-// const { width, height } = window.screen
-
-// // base resolution is 360x640 @4
-// const WIDTH = Math.max(width, height) * DPR
-// const HEIGHT = Math.min(width, height) * DPR
-
-// // width and height of the scene - change here to adjust size of scene
-// const WIDTH = window.innerWidth * window.devicePixelRatio - 16;
-// const HEIGHT= window.innerHeight * window.devicePixelRatio - 16;
 
 // https://phaser.discourse.group/t/how-many-pixels-wondering-about-target-resolution/4456/14
 // base resolution is 480x270 @4 = 1920x1080

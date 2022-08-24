@@ -1,5 +1,4 @@
-// allows classes to access similar functions
-
+/** Allows classes to access similar functions */
 export default {
     // create a collider between "this" object and collision object
     addCollider(collisionObject, callback) {

@@ -1,8 +1,8 @@
-/* A base enemy class that all enemies will inherit from */
 
 // import collidable function from collidable.js
 import collidable from "../../ExtendedFeatures/collidable";
 
+/** A base enemy class that all enemies will inherit from */
 class Enemy extends Phaser.Physics.Arcade.Sprite {
     // creates a super class for all  enemy objects - key will be the name of
     // the particular enemy class such as PlagueDoctor.js - "plagueDoctor"
@@ -22,7 +22,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.initEvents();
     }
 
-    // sets up enemy with functionality
+    /** Sets up enemy with functionality */ 
     init() {
         // Member variables/enemy properties
         this.gravity = 500;
@@ -40,14 +40,13 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.setOrigin(0.5, 1);
     }
 
-    // sets the event listeners
-    // necessary for updating animations
+    /** Sets the event listeners. Necessary for updating animations */
     initEvents() {
         this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
     }
 
-    // responsible for updating all enemies that are derived from this class every frame. Add
-    // functionality in here that will affect all enemies such as movement, logic, combat, etc.
+    /** Responsible for updating all enemies that are derived from this class every frame. Add
+      functionality in here that will affect all enemies such as enemy movement, logic, combat, etc. */
     update(time, delta) {
         this.setVelocityX(30);
     }

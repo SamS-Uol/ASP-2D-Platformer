@@ -1,16 +1,16 @@
-// class that sets up the main game functionality
-// creates initial scene, tilemap, tile layers, player and enemies
-
 import Player from '../Characters/Player/Player.js';
 import Enemies from '../Characters/Enemies/Enemies.js';
 
+/** Class that sets up the main game functionality. 
+ * Creates initial scene, tilemap, tile layers, player and enemies */
 class Play extends Phaser.Scene {
     constructor(config) {
         super('PlayScene');
         this.config = config;
     }
       
-    // sets up the game
+    /** Sets up the game including the map, spawn locations, the player,
+     *  and the enemies */
     create ()
     {
         const map = this.createMap();
@@ -43,8 +43,8 @@ class Play extends Phaser.Scene {
 
     // https://phaser.io/examples/v3/view/input/keyboard/single-keydown-event
     // https://rexrainbow.github.io/phaser3-rex-notes/docs/site/fullscreen/
-    // enables or disables full screen mode - press Z to activate
-    // contains error handling in the event that enabling fullscreen does not work
+    /** enables or disables full screen mode - press Z to activate
+     contains error handling in the event that enabling fullscreen does not work */
     enableFullScreenMode() {
         this.input.keyboard.on('keydown-Z', function (event) {
             try {
@@ -62,6 +62,7 @@ class Play extends Phaser.Scene {
         });
     }
 
+    /** Returns a tilemap the tilesetImage added to it. */
     createMap() {
         // create a tilemap after loading the Tiled json tilemap file in the preload class
         // by referencing the key 'crystal_world_map' 
@@ -76,10 +77,10 @@ class Play extends Phaser.Scene {
         return map;
     }
 
+    /** Creating environment and platform layers from tileset. */
     createLayers(map) {
         const tileset1 = map.getTileset('crystal_tileset_lev1')
 
-        // creating environment and platform layers from tileset
         // ORDER OF CODE MATTERS - platforms_collider is behind environment layer
         // end environment layer is behind platforms layer
         const platformsColliders = map.createLayer('platforms_colliders', tileset1);
@@ -89,21 +90,22 @@ class Play extends Phaser.Scene {
         const enemySpawns = map.getObjectLayer('enemy_spawns');
 
         // https://phaser.io/examples/v3/view/tilemap/set-colliding-by-property
-        // Instead of setting collision by index, you can set collision via properties that you set up
-        // in Tiled. You can assign properties to tiles in the tileset editor.
-        // The platforms_colliders layer only has tiles with a boolean "collides" property,
-        // so by seting this layer to collides: true, every tile in this layer is collidable
+        /* Instead of setting collision by index, you can set collision via properties that you set up
+         in Tiled. You can assign properties to tiles in the tileset editor.
+         The platforms_colliders layer only has tiles with a boolean "collides" property,
+         so by seting this layer to collides: true, every tile in this layer is collidable */
         platformsColliders.setCollisionByProperty({collides: true});
 
         return { environment, platforms, platformsColliders, playerSpawns, enemySpawns };
     }
 
-    // creates the player from a new instance of the player class
+    /** creates the player from a new instance of the player class at the x and y
+     *  position of the sceneEntrance point in Tiled */
     createPlayer(sceneEntrance) {
         return new Player(this, sceneEntrance.x, sceneEntrance.y);
     }
 
-    /* Creates an array of all enemies regardless of the type in order
+    /** Creates an array of all enemies regardless of the type in order
       to be able to group all enemies together.
       At each iterated spawnPoint in the enemySpawns layer, looks up the keys of each
       enemyType by accessing the enemy's spawnPoint.type, and then creates a new enemy
@@ -122,20 +124,20 @@ class Play extends Phaser.Scene {
         return enemies;
     }
 
-    // adds colliders to player
+    /** Adds colliders to player. */
     createPlayerColliders(player, { colliders }) {
         player.addCollider(colliders.platformsColliders);
     }
 
-    // adds colliders to the group of enemies
+    /** Adds colliders to the group of enemies. */
     createEnemyColliders(enemies, { colliders }) {
         enemies
             .addCollider(colliders.platformsColliders)
             .addCollider(colliders.player);
     }
 
-    // creates main camera that follows player, size of camera is confined to the
-    // maps width and height. Parameters are defined in config in index.js
+    /** Creates main camera that follows player, size of camera is confined to the 
+     * maps width and height. Parameters are defined in config in index.js */
     setupCameraToFollow(player) {
         const {mapWidth, mapHeight, zoomFactor} = this.config;
 
@@ -147,6 +149,8 @@ class Play extends Phaser.Scene {
         return mainCamera;
     }
 
+    /** Returns the scene entrance and scene exit objects that the player 
+     * enters and exits from for each scene */
     getPlayerSpawns(playerSpawnLayer) {
         const playerSpawns = playerSpawnLayer.objects;
         return {
@@ -155,6 +159,10 @@ class Play extends Phaser.Scene {
         }
     }
 
+    /** Takes the scene exit point and spans it across the height of the level. You
+     * can addjust the size to ensure the player exits the level from the right location.
+     * Otherwise, the player must intersect the exact location of the exit location.
+     */
     createSceneExit(exit, player) {
         const endOfScene = this.physics.add.sprite(exit.x, exit.y, 'sceneExit')
             .setSize(5, this.config.height * 2)

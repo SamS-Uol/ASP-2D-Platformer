@@ -1,10 +1,11 @@
-// A class to create the plagueDoctor enemy
-// Inherits from Enemy class
+
 
 // import collidable function from collidable.js
 import Enemy from './Enemy';
 import initAnims from '../Animations/plagueDoctorAnims';
 
+/** A class to create the plagueDoctor enemy.
+ * Inherits from Enemy class */
 class PlagueDoctor extends Enemy {
     // creates a plagueDoctor enemy object with the 'plagueDoctor' key image from the preload class
     // scene is the scene the enemy will appear in at x and y cooridinates
@@ -15,9 +16,9 @@ class PlagueDoctor extends Enemy {
         initAnims(scene.anims);
     }
 
-    // calls this update first, then the update method in the Enemy class (super.update)
-    // calls all update functionality from the Enemy class, then executes all update
-    // functionality that is ONLY specific to THIS class
+    /** Calls this class' update first, then the update method in the Enemy class (super.update) 
+     * calls all update functionality from the Enemy class, then executes all update 
+     * functionality that is ONLY specific to THIS class */
     update(time, delta) {
         super.update(time, delta);
 
