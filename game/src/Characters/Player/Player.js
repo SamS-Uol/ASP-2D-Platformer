@@ -1,5 +1,4 @@
-/*
-Documention: An Arcade Physics Sprite is a Sprite
+/* Documention: An Arcade Physics Sprite is a Sprite
 with an Arcade Physics body and related components.*/
 
 // import player animations

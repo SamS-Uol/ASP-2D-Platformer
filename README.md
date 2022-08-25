@@ -25,7 +25,6 @@ with object oriented and agile software practices, as well as git/version contro
 
 ## More features to come!
 
-- Enemies
 - Fighting and health functionality
 - Updated levels
 - Collectables
@@ -77,12 +76,12 @@ with object oriented and agile software practices, as well as git/version contro
 ## To view the project from anywhere:
 
 Go to https://tzahiuol.github.io/agile-software-projects/website to view and access it directly.
-Upon clicking the game link (section #3) game/dist is loaded from the gh-pages branch that contains only the build files.
+Upon clicking the game link (section #3), game/dist is loaded from the gh-pages branch that contains only the build files.
 
 ## To edit the project:
 
 - Clone or download repository from https://github.com/tzahiuol/agile-software-projects/website
-- go to command line in root folder, agile-software-projects
+- Navigate to the command line in the root folder called agile-software-projects
 - install node_modules if it is not already installed (npm install)
 
 - NOTE TO VIEW: type npm start and project should load on your browser at localhost:8080
@@ -90,7 +89,6 @@ Upon clicking the game link (section #3) game/dist is loaded from the gh-pages b
 - INSERT CODE IN BETWEEN npm start AND npm build to edit project files
 
 - running npm start will delete the dist folder (the build folder) so type npm run build to recreate the dist folder and re-build it
-- you can view the project now with your updated changes and it being rebuilt by clicking on the Live Preview button in Brackets or the Go Live button in Visual Studio for instance without typing npm start
-
+- After rebuilding the project, you can now view the updated build by clicking on the Live Preview button in Brackets or the Go Live button in Visual Studio for instance without typing npm start
 
 - NOTE TO UPLOAD CHANGES TO REPOSITORY: type npm run deploy to upload the build files (dist folder) onto the gh-pages branch on the repository (https://github.com/tzahiuol/agile-software-projects/tree/gh-pages). The gh-pages branch only contains the build files and not the entire project.
