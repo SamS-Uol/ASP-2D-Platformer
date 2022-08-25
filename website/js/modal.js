@@ -1,3 +1,5 @@
+import dist from "../../game/dist";
+
 document.getElementById("play-button").onclick = function (){
     const myModal = new bootstrap.Modal(document.getElementById('gameModal'), {})
     const modalBody = document.getElementsByClassName("modal-body")[0];
@@ -6,7 +8,8 @@ document.getElementById("play-button").onclick = function (){
     setTimeout(()=>{
 
         const iframe = document.createElement("iframe");
-        iframe.src = 'https://tzahiuol.github.io/agile-software-projects/game/dist/';
+        // iframe.src = 'https://tzahiuol.github.io/agile-software-projects/game/dist/';
+        iframe.src = dist;
         iframe.width="100vw";
         iframe.style.height='100vh';
         modalBody.appendChild(iframe);
