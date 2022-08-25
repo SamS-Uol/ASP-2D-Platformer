@@ -1,5 +1,3 @@
-// const dist = require("../../game/dist");
-
 document.getElementById("play-button").onclick = function (){
     const myModal = new bootstrap.Modal(document.getElementById('gameModal'), {})
     const modalBody = document.getElementsByClassName("modal-body")[0];
