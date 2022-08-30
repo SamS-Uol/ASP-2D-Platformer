@@ -17,7 +17,7 @@ class Play extends Phaser.Scene {
         const layers = this.createLayers(map);
         const playerSpawns = this.getPlayerSpawns(layers.playerSpawns);
         const player = this.createPlayer(playerSpawns.sceneEntrance);
-        const enemies = this.createEnemies(layers.enemySpawns);
+        const enemies = this.createEnemies(layers.enemySpawns, layers.platformsColliders);
 
         // custom function that allows the player to collide with any layer
         this.createPlayerColliders(player, {
@@ -109,16 +109,18 @@ class Play extends Phaser.Scene {
       to be able to group all enemies together.
       At each iterated spawnPoint in the enemySpawns layer, looks up the keys of each
       enemyType by accessing the enemy's spawnPoint.type, and then creates a new enemy
-      of that type at that enemy's spawnPoint.x/.y properties. It then adds each enemy
-      to an array and returns that array in order to be able to group all enemies together.
+      of that type at that enemy's spawnPoint.x/.y properties with the enemy being able
+      to collide. It then adds each enemy to an array and returns that array in order
+      to be able to group all enemies together.
     */
-    createEnemies(spawnLayer) {
+      createEnemies(spawnLayer, platformsColliders) {
         const enemies = new Enemies(this);
         const enemyTypes = enemies.getTypes();
-
+    
         spawnLayer.objects.forEach(spawnPoint => {
-            const enemy = new enemyTypes[spawnPoint.type](this, spawnPoint.x, spawnPoint.y);
-            enemies.add(enemy);
+          const enemy = new enemyTypes[spawnPoint.type](this, spawnPoint.x, spawnPoint.y);
+          enemy.setPlatformColliders(platformsColliders)
+          enemies.add(enemy);
         })
 
         return enemies;
@@ -164,14 +166,14 @@ class Play extends Phaser.Scene {
      * Otherwise, the player must intersect the exact location of the exit location.
      */
     createSceneExit(exit, player) {
-        const endOfScene = this.physics.add.sprite(exit.x, exit.y, 'sceneExit')
-            .setSize(5, this.config.height * 2)
-            .setOrigin(0.5, 1)
-            .setAlpha(0);
+    const endOfScene = this.physics.add.sprite(exit.x, exit.y, 'sceneExit')
+    .setSize(5, this.config.height * 2)
+    .setOrigin(0.5, 1)
+    .setAlpha(0);
 
-        this.physics.add.overlap(player, endOfScene, () => {
-            console.log("player should transition to next scene");
-        });
+    this.physics.add.overlap(player, endOfScene, () => {
+        console.log("Player has reached the edge of scene");
+        })
     }
 }
 
