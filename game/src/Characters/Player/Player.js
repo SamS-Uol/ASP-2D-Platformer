@@ -37,6 +37,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.extraJumpsValue = 1;
         this.extraJumps = this.extraJumpsValue;
 
+        this.isHit = false;
+        this.knockbackVelocity = 250;
+
         // create basic inputs for handling player movement
         // Documentation: Creates and returns an object containing 4 hotkeys
         // for Up, Down, Left and Right, and also Space Bar and shift.
@@ -64,6 +67,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     /** When extending from an arcade sprite super class, you must provide time, delta paramaters.
     Necessary for updating sprite animation properly in preUpdate. Runs every frame. */
     update(time, delta) {
+        // if player is damaged, controls are disabled, otherwise enable controls
+        if (this.isHit) {
+            return;
+        }
+
+        //enables controls
         this.handlePlayerControls(time, delta);
     }
 
@@ -138,6 +147,61 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             if (this.extraJumps === 1) this.play('jump1', true);
             else if (this.extraJumps === 0) this.play('jump2', true);
         }
+    }
+
+    /**Every 200 milliseconds, character turns black and then back to its
+     * original tint to emulate a blinking effect for when player takes damage.
+     * https://phaser.io/examples/v3/category/tweens
+     * https://photonstorm.github.io/phaser3-docs/Phaser.Tweens.TweenManager.html */
+    playDamageTween() {
+        // currently runs for 200 milliseconds (100 * 2);
+        return this.scene.tweens.add({
+          targets: this,
+          duration: 100,
+          repeat: -1,
+          tint: 0xffffff
+        })
+      }
+
+    /** Checks if the player is colliding with a game object such as an enemy.
+     * Put code in here to implement interactions if a player collides with a
+     * game object. This could include, lowering health, dying, being knocked
+     * backwards, etc. */
+    collidesWith(gameObject) {
+        console.log("player has been hit", gameObject);
+
+        if (this.isHit) {
+            return;
+        }
+        this.isHit = true;
+        this.isKnockedBackwards();
+        const hitAnim = this.playDamageTween();
+
+        // Creates a Timer Event and adds it to the Clock at the start of the frame.
+        // After 1 second (1000 milliseconds), player hasBeenHit is false, sets player
+        // sprite tint back to original state after changing from playDamageTween,
+        // controls are enabled
+        // https://photonstorm.github.io/phaser3-docs/Phaser.Time.Clock.html
+        this.scene.time.delayedCall(1000, () => {
+            this.isHit = false;
+            hitAnim.stop();
+            this.clearTint();
+        });        
+    }
+
+    /** knocks players backwards and upwards away from a body depending if the 
+     * player right or left edge is colliding with a body. */
+    isKnockedBackwards() {
+        // if player's body is colliding with a body on it's right edge
+        if (this.body.touching.right) {
+            this.setVelocityX(-this.knockbackVelocity);
+        } 
+        // if player's body is colliding with a body on it's left edge
+        else {
+            this.setVelocityX(this.knockbackVelocity);
+        }
+
+        setTimeout(() => this.setVelocityY(-this.knockbackVelocity), 0)
     }
 }
 

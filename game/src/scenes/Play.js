@@ -113,7 +113,7 @@ class Play extends Phaser.Scene {
       to collide. It then adds each enemy to an array and returns that array in order
       to be able to group all enemies together.
     */
-      createEnemies(spawnLayer, platformsColliders) {
+    createEnemies(spawnLayer, platformsColliders) {
         const enemies = new Enemies(this);
         const enemyTypes = enemies.getTypes();
     
@@ -126,16 +126,22 @@ class Play extends Phaser.Scene {
         return enemies;
     }
 
+    /** Executes functionality when player collidesWith enemy game object */
+    onPlayerCollision(enemy, player) {
+        player.collidesWith(enemy);
+      }
+
     /** Adds colliders to player. */
     createPlayerColliders(player, { colliders }) {
         player.addCollider(colliders.platformsColliders);
     }
 
-    /** Adds colliders to the group of enemies. */
+    /** Adds colliders to the group of enemies. Calls onPlayerCollision
+     * to execute what happens if player collides with enemy game object. */
     createEnemyColliders(enemies, { colliders }) {
         enemies
             .addCollider(colliders.platformsColliders)
-            .addCollider(colliders.player);
+            .addCollider(colliders.player, this.onPlayerCollision);
     }
 
     /** Creates main camera that follows player, size of camera is confined to the 
