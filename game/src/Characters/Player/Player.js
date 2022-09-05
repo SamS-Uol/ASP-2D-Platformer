@@ -5,6 +5,10 @@ with an Arcade Physics body and related components.*/
 import initAnims from '../Animations/playerAnims';
 // import collidable function from collidable.js
 import collidable from '../../ExtendedFeatures/collidable';
+// import health/hearts for the GUI
+import HealthUI from '../../hud/HealthUI';
+import EventEmitter from '../../Emitter.js';
+
 
 /** A class to create the player that is a sprite */
 class Player extends Phaser.Physics.Arcade.Sprite {
@@ -28,6 +32,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     /** Sets up player with functionality. */ 
     init() {
+
         // Member variables/player properties
         this.gravity = 500;
         this.playerSpeed = 150;
@@ -37,14 +42,28 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.extraJumpsValue = 1;
         this.extraJumps = this.extraJumpsValue;
 
+        this.isDead = false;
         this.isHit = false;
-        this.knockbackVelocity = 250;
+        this.knockbackVelocity = 175;
 
         // create basic inputs for handling player movement
         // Documentation: Creates and returns an object containing 4 hotkeys
         // for Up, Down, Left and Right, and also Space Bar and shift.
         this.cursors = this.scene.input.keyboard.createCursorKeys();
-        
+
+        // set the maximum number of hearts to start the game with
+        this.maxHearts = 3;
+        this.currentHealth = this.maxHearts;
+
+        // creates a new instance of the HealthUI drawing the amount of hearts
+        // specified by the this.maxHearts variable
+        this.hp = new HealthUI(
+            this.scene,
+            this.scene.config.leftTopCorner.x + 5,
+            this.scene.config.leftTopCorner.y + 5,
+            this.maxHearts
+        );
+
         // adjusts player's size
         this.body.setSize(20, 36);
         this.setOffset(10, 25);
@@ -64,20 +83,29 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
     }
 
-    /** When extending from an arcade sprite super class, you must provide time, delta paramaters.
-    Necessary for updating sprite animation properly in preUpdate. Runs every frame. */
-    update(time, delta) {
-        // if player is damaged, controls are disabled, otherwise enable controls
-        if (this.isHit) {
+    /** Allows controls to be used unless the character has been hit, or is dead. Runs every frame. */
+    update() {
+        // If player is damaged or doesn't have a body upon restarting the scene, controls are
+        // disabled, and return, otherwise enable controls.
+        if (this.isHit || !this.body) { return; }
+        if (this.isDead) {
+            this.setVelocityX(0);
+            this.play('idle', true);
             return;
         }
 
-        //enables controls
-        this.handlePlayerControls(time, delta);
+        // If player falls below the map's height bounds, kill the player. Shakes the camera
+        if (this.getBounds().top > this.scene.config.mapHeight) {
+            this.scene.cameras.main.shake(240, .0075, false)
+            this.killPlayer();
+        }
+
+        //enables controls if you haven't been hit
+        this.handlePlayerControls();
     }
 
     /** Handles and enables all player controls and movement logic */
-    handlePlayerControls(time, delta) {
+    handlePlayerControls() {
         const { left, right, space, up} = this.cursors;
         const isGrounded = this.body.onFloor();
 
@@ -87,15 +115,18 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     /** Moves player left, right, or stops.
-     *  Flips character when pressing left or right. */
+     *  Flips character when pressing left or right. Also adjusts the sprite offset so that
+     *  the image stays inside the body properly.*/
     handleMovement(left, right) {
         const aKey = this.scene.input.keyboard.addKey('A');
         const dKey = this.scene.input.keyboard.addKey('D');
 
         if (left.isDown || aKey.isDown) {
+            this.setOffset(2, 25);
             this.setVelocityX(-this.playerSpeed);
             this.setFlipX(true);
         } else if (right.isDown|| dKey.isDown) {
+            this.setOffset(10, 25);
             this.setVelocityX(this.playerSpeed);
             this.setFlipX(false);
         } else {
@@ -135,10 +166,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             // resets jumps
             this.extraJumps = this.extraJumpsValue;
             if (this.body.velocity.x !== 0) {
-                this.play('run', true)
+                this.play('run', true);
             }
             else {
-                this.play('idle', true)
+                this.play('idle', true);
             }
         }
         else
@@ -164,29 +195,36 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       }
 
     /** Checks if the player is colliding with a game object such as an enemy.
-     * Put code in here to implement interactions if a player collides with a
-     * game object. This could include, lowering health, dying, being knocked
-     * backwards, etc. */
+     *  If so, player is knocked backwards, stunned with an animation, and 
+     *  decreases the amount of hearts/health by the amount of damage the
+     *  game object does. Upon restarting scene, the character does not have a 
+     *  body, so if there is not a body, the function returns. */
     collidesWith(gameObject) {
-        console.log("player has been hit", gameObject);
+        if (this.isHit || !this.body) { return; }
 
-        if (this.isHit) {
-            return;
+        this.currentHealth -= 1;
+        if (this.currentHealth <= 0) {
+            this.killPlayer();
         }
+
         this.isHit = true;
         this.isKnockedBackwards();
         const hitAnim = this.playDamageTween();
+        this.scene.cameras.main.shake(240, .001, false);
 
         // Creates a Timer Event and adds it to the Clock at the start of the frame.
-        // After 1 second (1000 milliseconds), player hasBeenHit is false, sets player
+        // After 1 second (1000 milliseconds), this.isHit is false, sets player
         // sprite tint back to original state after changing from playDamageTween,
         // controls are enabled
         // https://photonstorm.github.io/phaser3-docs/Phaser.Time.Clock.html
-        this.scene.time.delayedCall(1000, () => {
+        this.scene.time.delayedCall(500, () => {
             this.isHit = false;
             hitAnim.stop();
             this.clearTint();
-        });        
+        });
+
+        // Decreases hearts and calls the killPlayer function if player is out of health.
+        this.hp.decreaseHearts(gameObject.damage);
     }
 
     /** knocks players backwards and upwards away from a body depending if the 
@@ -202,6 +240,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         setTimeout(() => this.setVelocityY(-this.knockbackVelocity), 0)
+    }
+
+    /** Calls the listener that is registered for the event when the player is dead.
+     * Allows forthe code from this class to be broadcast across other classes */ 
+    killPlayer() {
+        this.isDead = true;
+        EventEmitter.emit('PLAYER_DEAD');
+        return;
     }
 }
 

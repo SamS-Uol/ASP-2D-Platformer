@@ -1,5 +1,6 @@
 import Player from '../Characters/Player/Player.js';
 import Enemies from '../Characters/Enemies/Enemies.js';
+import EventEmitter from '../Emitter.js';
 
 /** Class that sets up the main game functionality. 
  * Creates initial scene, tilemap, tile layers, player and enemies */
@@ -11,8 +12,11 @@ class Play extends Phaser.Scene {
       
     /** Sets up the game including the map, spawn locations, the player,
      *  and the enemies */
-    create ()
+    create({gameStatus: gameState})
     {
+        // Game initially fades in after 1 second
+        this.cameras.main.fadeIn(1000, 0, 0, 0);
+
         const map = this.createMap();
         const layers = this.createLayers(map);
         const playerSpawns = this.getPlayerSpawns(layers.playerSpawns);
@@ -37,6 +41,13 @@ class Play extends Phaser.Scene {
 
         this.createSceneExit(playerSpawns.sceneExit, player)
         this.setupCameraToFollow(player);
+
+        // When the game is restarted, the emitter continues to call this.createGameEvents()
+        // many times. By setting the game state and returning if the player is dead, then it
+        // only calls the function once and returns. For memory efficieny.
+        // - https://www.udemy.com/course/game-development-in-js-the-complete-guide-w-phaser-3/
+        if (gameState === 'PLAYER_DEAD') { return; }
+        this.createGameEvents();
 
         this.enableFullScreenMode();
     }
@@ -98,6 +109,20 @@ class Play extends Phaser.Scene {
 
         return { environment, platforms, platformsColliders, playerSpawns, enemySpawns };
     }
+
+    /** Adds the listener for the event when the player is dead. Is called when the player's
+     * health is less than or equal to 0 from the Player class. Camera fades out, then the
+     * scene restarts. */
+    createGameEvents() {
+        EventEmitter.on('PLAYER_DEAD', () => {
+            // fade to black after 2 second
+            this.cameras.main.fadeOut(2000, 0, 0, 0);
+            // after 3 seconds, game is restarted
+            this.time.delayedCall(3000, () => {
+                this.scene.restart({gameStatus:"PLAYER_DEAD"});
+            });
+        })
+      }
 
     /** creates the player from a new instance of the player class at the x and y
      *  position of the sceneEntrance point in Tiled */

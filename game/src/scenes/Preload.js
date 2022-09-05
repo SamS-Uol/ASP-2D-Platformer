@@ -22,6 +22,12 @@ class Preload extends Phaser.Scene {
         this.load.spritesheet('plagueDoctor','assets/characters/Enemy04/enemy04_sheet.png', {
             frameWidth: 32, frameHeight: 64, spacing: 32
         });
+
+        // loads the GUI's
+        this.load.image('emptyHeart', 'assets/gui/heart.png');
+        this.load.image('filledHeart', 'assets/gui/heart-filled.png');
+        this.load.image('playerPortrait', 'assets/gui/portrait.png');
+        // this.load.image('projectileCount', 'assets/gui/projectile_count.png');
     }
 
     /** By default, starts the PlayScene after preloading assets */

@@ -1,6 +1,7 @@
 
 // import collidable function from collidable.js
 import collidable from "../../ExtendedFeatures/collidable";
+import EventEmitter from '../../Emitter.js';
 
 /** A base enemy class that all enemies will inherit from */
 class Enemy extends Phaser.Physics.Arcade.Sprite {
@@ -36,6 +37,9 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         // how far enemy has traveled
         this.currentPatrolDistance = 0;
 
+        // Amount of damage the enemies can do to the player. Decreases the same number of hearts
+        this.damage = 1;
+
         this.platformCollidersLayer = null;
         //this.rayGraphics = this.scene.add.graphics({lineStyle: {width: 2, color: 0xaa00aa}});
 
@@ -50,6 +54,16 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         //sets origin of the sprite to be the in the middle and bottom so that it collides properly
         this.setOrigin(0.5, 1);
         this.setVelocityX(this.speed);
+
+        this.createGameEvents();
+    }
+
+    /** Adds the listener for the event when the player is dead. Is called when the player's
+     * health is less than or equal to 0 from the Player class. Forces Enemy to stop moving. */
+    createGameEvents() {
+        EventEmitter.on('PLAYER_DEAD', () => {
+            this.stopMovement();
+        });
     }
 
     /** Sets the event listeners. Necessary for updating animations */
@@ -63,11 +77,20 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.patrol(time);
     }
 
+    /** Stops all enemy movement. Call when player has died so that enemies do not keep moving,
+     * and colliding with player. First checks that the enemy is active, then stops the
+     * movement by setting the velocity to 0 and sets deactivates it. */
+    stopMovement() {
+        if (this.active) {
+            this.setVelocity(0);
+            this.setActive(false);
+        }
+    }
+
     /** Executes patrol functionality. Essentially uses raycasting to detect if enemy
      * has reached the edge of it's platform or if it has moved a specified distance. If
      * either condition is true, the enemy's sprite flips, moves in the opposite direction,
-     * and continues performing the same function.
-     */
+     * and continues performing the same function. */
     patrol(time) {
         // if enemy doesn't have body, or if they're not grounded on a platform, then
         // exit out of function by returning. Otherwise execute function below
@@ -81,8 +104,8 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         // properties of this.raycast comes from collidable.js
         /******** BUG: cannot make rayLength any shorter or precsision higher 
-        without buggy behaviour ********/
-        const { ray, hasHit } = this.raycast(this.body, this.platformCollidersLayer,
+        without buggy behaviour. Currently enemies cannot move to the edges. ********/
+        const { hasHit } = this.raycast(this.body, this.platformCollidersLayer,
             {raylength: 39, precision: 1, steepness: 1});
 
         // if enemy's ray has collided with a platform or if the enemy has moved
@@ -95,10 +118,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.timeFromLastTurn = time;
             this.currentPatrolDistance = 0;
         }
-
-        // temporary code to see ray for debugging
-        // this.rayGraphics.clear();
-        // this.rayGraphics.strokeLineShape(ray);
     }
 
     /** Sets the enemies colliders to whatever layer is specified. Currently

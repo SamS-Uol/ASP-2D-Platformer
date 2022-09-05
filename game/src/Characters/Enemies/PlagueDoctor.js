@@ -1,5 +1,3 @@
-
-
 // import collidable function from collidable.js
 import Enemy from './Enemy';
 import initAnims from '../Animations/plagueDoctorAnims';
@@ -21,6 +19,10 @@ class PlagueDoctor extends Enemy {
      * functionality that is ONLY specific to THIS class */
     update(time, delta) {
         super.update(time, delta);
+
+        // Upon restarting scene, enemy is not active, so it returns. Otherwise it would execute
+        // animation not being active and an error would occur.
+        if (!this.active) { return; }
 
         // plays plagueDoctor idle animation
         this.play('plagueDoctor-idle', true);

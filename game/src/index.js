@@ -24,6 +24,7 @@ export const DPR = roundHalf(window.devicePixelRatio)
 const isMobile = () => Math.min(window.screen.width, window.screen.height) <= 270;
 const WIDTH = 480 * (isMobile() ? DPR : 4);
 const HEIGHT = 270 * (isMobile() ? DPR : 4);
+const ZOOM_FACTOR = 2;
 
 // create a custom config object that can be shared between all scenes
 const SHARED_CONFIG = {
@@ -31,7 +32,11 @@ const SHARED_CONFIG = {
     mapHeight: MAP_HEIGHT,
     width: WIDTH,
     height: HEIGHT,
-    zoomFactor: 2
+    zoomFactor: ZOOM_FACTOR,
+    leftTopCorner: {
+        x: (WIDTH - (WIDTH / ZOOM_FACTOR)) / 2,
+        y: (HEIGHT - (HEIGHT / ZOOM_FACTOR)) / 2
+    }
 }
 
 // create array of scenes, order matters! 
