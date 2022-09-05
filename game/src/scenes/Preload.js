@@ -11,7 +11,11 @@ class Preload extends Phaser.Scene {
         // loads tilemap json file - look up json file for detailed info
         this.load.tilemapTiledJSON('crystal_world_map', 'assets/tilemaps/world_map_crystal.json');
         // loads the original artwork
-        this.load.image('tiles-1', 'assets/art_maps/crystal_world/main_lev_build_1.png')
+        this.load.image('tiles-1', 'assets/art_maps/crystal_world/main_lev_build_1.png');
+        this.load.image('background-spikes-tileset', 'assets/art_maps/crystal_world/bg_spikes_tileset.png');
+
+        this.load.image('bg-spikes-dark', 'assets/art_maps/backgrounds/background03_super_dark.png');
+        this.load.image('sky-dark', 'assets/art_maps/backgrounds/background_0.png');
     
         // loads the player sprite sheet
         this.load.spritesheet('player','assets/characters/Gino Character/PNG/idle,run,jump_sheet.png', {

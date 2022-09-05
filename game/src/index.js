@@ -25,6 +25,8 @@ const isMobile = () => Math.min(window.screen.width, window.screen.height) <= 27
 const WIDTH = 480 * (isMobile() ? DPR : 4);
 const HEIGHT = 270 * (isMobile() ? DPR : 4);
 const ZOOM_FACTOR = 2;
+const PARRALLAX_X = 0.3;
+const PARRALLAX_Y = 0.1;
 
 // create a custom config object that can be shared between all scenes
 const SHARED_CONFIG = {
@@ -36,7 +38,9 @@ const SHARED_CONFIG = {
     leftTopCorner: {
         x: (WIDTH - (WIDTH / ZOOM_FACTOR)) / 2,
         y: (HEIGHT - (HEIGHT / ZOOM_FACTOR)) / 2
-    }
+    },
+    parrallaxX: PARRALLAX_X,
+    parrallaxY: PARRALLAX_Y
 }
 
 // create array of scenes, order matters! 

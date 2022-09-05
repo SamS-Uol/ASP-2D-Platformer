@@ -23,6 +23,8 @@ class Play extends Phaser.Scene {
         const player = this.createPlayer(playerSpawns.sceneEntrance);
         const enemies = this.createEnemies(layers.enemySpawns, layers.platformsColliders);
 
+        this.createBackground(map);
+
         // custom function that allows the player to collide with any layer
         this.createPlayerColliders(player, {
             colliders: {
@@ -52,10 +54,41 @@ class Play extends Phaser.Scene {
         this.enableFullScreenMode();
     }
 
+    /** Adds background sprites, and adjusts scrolling factor. Only needs one sprite, and set
+     * the scroll factor to 0 in the x so it will not scroll left or right. Set the y scroll
+     * factor to 1 so that it will scroll when camera goes up or down.
+     */
+    createBackground(map) {
+        const backgroundObject = map.getObjectLayer('background-spikes').objects[0];
+
+        this.spikesImage = this.add.tileSprite(
+            backgroundObject.x,
+            backgroundObject.y,
+            this.config.width,
+            backgroundObject.height,
+            'bg-spikes-dark')
+            .setOrigin(0, 1)
+            .setDepth(-5)
+            .setScrollFactor(0, 1); //A value of 1 means it will move exactly in sync with a camera.
+
+        this.skyImage = this.add.tileSprite(
+            0,
+            0,
+            this.config.width,
+            180, // 180 is the height in pixels of the image
+            'sky-dark')
+            .setOrigin(0, 0)
+            .setDepth(-6)
+            .setScale(1.1)
+            .setScrollFactor(0, 1)
+      }
+
     // https://phaser.io/examples/v3/view/input/keyboard/single-keydown-event
     // https://rexrainbow.github.io/phaser3-rex-notes/docs/site/fullscreen/
     /** enables or disables full screen mode - press Z to activate
-     contains error handling in the event that enabling fullscreen does not work */
+     contains error handling in the event that enabling fullscreen does not work.
+     BUG: Cannot enter fullscreen after game has restarted. Currently only works
+     if game has not restarted. */
     enableFullScreenMode() {
         this.input.keyboard.on('keydown-Z', function (event) {
             try {
@@ -84,18 +117,22 @@ class Play extends Phaser.Scene {
         // Image is loaded from preload class with the appropriate tileset name,
         // which can be found in the json file
         map.addTilesetImage('crystal_tileset_lev1', 'tiles-1');
-
+        map.addTilesetImage('bg_spikes_tileset', 'background-spikes-tileset');
         return map;
     }
 
     /** Creating environment and platform layers from tileset. */
     createLayers(map) {
-        const tileset1 = map.getTileset('crystal_tileset_lev1')
+        const tileset1 = map.getTileset('crystal_tileset_lev1');
+        const tilesetBackground = map.getTileset('bg_spikes_tileset');
+
+        // adds the solid background tileset from Tiled
+        map.createStaticLayer('background-solid', tilesetBackground).setDepth(-7);
 
         // ORDER OF CODE MATTERS - platforms_collider is behind environment layer
         // end environment layer is behind platforms layer
-        const platformsColliders = map.createLayer('platforms_colliders', tileset1);
-        const environment = map.createLayer('environment', tileset1);
+        const platformsColliders = map.createLayer('platforms_colliders', tileset1).setVisible(false);
+        const environment = map.createLayer('environment', tileset1).setDepth(-2);
         const platforms = map.createLayer('platforms', tileset1);
         const playerSpawns = map.getObjectLayer('player_spawns');
         const enemySpawns = map.getObjectLayer('enemy_spawns');
@@ -202,9 +239,23 @@ class Play extends Phaser.Scene {
     .setOrigin(0.5, 1)
     .setAlpha(0);
 
+    // Player has reached edge of scene - LOAD NEW SCENE HERE!!
     this.physics.add.overlap(player, endOfScene, () => {
         console.log("Player has reached the edge of scene");
         })
+    }
+
+    /** updates the art to move at the parallax rate*/
+    update() {
+        this.createParallax(this.config.parrallaxX, this.config.parrallaxY);
+    }
+
+    /** background art scrolls at a different rate than the camera to create the
+     * illusion of depth
+     */
+    createParallax(parallax_x, parallax_y) {
+        this.spikesImage.tilePositionX = this.cameras.main.scrollX * parallax_x;
+        this.skyImage.tilePositionX = this.cameras.main.scrollX * parallax_y;
     }
 }
 

@@ -69,7 +69,8 @@ with object oriented and agile software practices, as well as git/version contro
 - https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_breakout_game_Phaser
 - https://docs.github.com
 - https://doc.mapeditor.org/en/stable/
-- https://www.youtube.com/watch?v=ZwaomOYGuYo, https://www.youtube.com/watch?v=SIYNuXdDClU
+- https://www.youtube.com/watch?v=ZwaomOYGuYo
+- https://www.youtube.com/watch?v=SIYNuXdDClU
 - https://digitherium.com/blog/phaser-platformer-series-13-hearts-lives/
 
 - various other help articles from stack overflow and youtube
