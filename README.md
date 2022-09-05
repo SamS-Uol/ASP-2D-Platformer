@@ -41,6 +41,8 @@ with object oriented and agile software practices, as well as git/version contro
 -Artwork created by szadiart.itch.io
 -Artist states: "You can use this asset personally and commercially."
 
+-Heart GUI found on https://digitherium.com/blog/phaser-platformer-series-13-hearts-lives/
+
 ## References:
 
 - https://phaser.io/learn

@@ -304,6 +304,42 @@
                  "width":0,
                  "x":1040,
                  "y":240
+                }, 
+                {
+                 "height":0,
+                 "id":29,
+                 "name":"Spawn",
+                 "point":true,
+                 "rotation":0,
+                 "type":"PlagueDoctor",
+                 "visible":true,
+                 "width":0,
+                 "x":352,
+                 "y":448
+                }, 
+                {
+                 "height":0,
+                 "id":30,
+                 "name":"Spawn",
+                 "point":true,
+                 "rotation":0,
+                 "type":"PlagueDoctor",
+                 "visible":true,
+                 "width":0,
+                 "x":944,
+                 "y":320
+                }, 
+                {
+                 "height":0,
+                 "id":31,
+                 "name":"Spawn",
+                 "point":true,
+                 "rotation":0,
+                 "type":"PlagueDoctor",
+                 "visible":true,
+                 "width":0,
+                 "x":1360,
+                 "y":320
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -312,7 +348,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":29,
+ "nextobjectid":32,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.5",

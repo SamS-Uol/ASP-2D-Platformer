@@ -101,7 +101,7 @@ class Play extends Phaser.Scene {
                 }
             }
             catch(err) {
-                console.log('Error is ' + err);
+                alert("Error. Unable to make the game full screen. Please refresh your browser. Error code:" + err);
             }
         });
     }
@@ -239,9 +239,12 @@ class Play extends Phaser.Scene {
     .setOrigin(0.5, 1)
     .setAlpha(0);
 
-    // Player has reached edge of scene - LOAD NEW SCENE HERE!!
-    this.physics.add.overlap(player, endOfScene, () => {
-        console.log("Player has reached the edge of scene");
+        // Player has reached edge of scene - LOAD NEW SCENE HERE!!
+        this.physics.add.overlap(player, endOfScene, () => {
+            alert("You have reached the end of the level! Press the button below to restart.");
+            this.time.delayedCall(1, () => {
+                this.scene.restart({gameStatus:"PLAYER_DEAD"});
+            });
         })
     }
 
