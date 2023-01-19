@@ -26,7 +26,10 @@ with object oriented and agile software practices, as well as git/version contro
 
 ## Screenshots
 
-![sample_level_screenshot](/game/assets/screenshots/2d_platformer_sample_img.png)
+![sample_level_screenshot](/game/assets/screenshots/entry%20-%20level1.png)
+![sample_level_screenshot](/game/assets/screenshots/jumping%20over%20enemy%20-%20level1.png)
+![sample_level_screenshot](/game/assets/screenshots/taking%20damage%20-%20level1.png)
+
 
 ## More features to come!
 
