@@ -10,6 +10,9 @@ with object oriented and agile software practices, as well as git/version contro
 - contains tile based maps as levels
 - a player that can move left, right, jump, and collides appropriately with platforms
 - idle, run, and jump animations with proper transitions
+- enemies patrol back and forth
+- knockback feature with invincibility buffer and animation
+- full screen mode
 
 ## Goal
 
@@ -17,7 +20,9 @@ with object oriented and agile software practices, as well as git/version contro
 
 ## Controls
 
-- Use the arrows keys to move left and right, and space or the up arrow key to jump
+- Use the arrows keys to move left and right
+- Space or the up arrow key to jump
+- Z to maximize screen
 
 ## Screenshots
 
@@ -25,7 +30,7 @@ with object oriented and agile software practices, as well as git/version contro
 
 ## More features to come!
 
-- Fighting and health functionality
+- Fighting functionality
 - Updated levels
 - Collectables
 - Sound
@@ -36,7 +41,7 @@ with object oriented and agile software practices, as well as git/version contro
 - Phaser, version 3.50.0 - https://phaser.io/ 
 - Tiled, version 1.8.5 - https://www.mapeditor.org/
 - Node, version 16.15.1 - https://nodejs.org/en/
-- Github repo - https://github.com/tzahiuol/agile-software-projects/
+- Github repo - https://github.com/samsherrod/2D-Platformer
 
 -Artwork created by szadiart.itch.io
 -Artist states: "You can use this asset personally and commercially."
@@ -79,13 +84,13 @@ with object oriented and agile software practices, as well as git/version contro
 
 ## To view the project from anywhere:
 
-Go to https://tzahiuol.github.io/agile-software-projects/website to view and access it directly.
+Go to https://github.com/samsherrod/2D-Platformer/website to view and access it directly.
 Upon clicking the game link (section #3), game/dist is loaded from the gh-pages branch that contains only the build files.
 
 ## To edit the project:
 
-- Clone or download repository from https://github.com/tzahiuol/agile-software-projects/website
-- Navigate to the command line in the root folder called agile-software-projects
+- Clone or download repository from https://github.com/samsherrod/2D-Platformer/website
+- Navigate to the command line in the root folder called 2D-Platformer
 - install node_modules if it is not already installed (npm install)
 
 - NOTE TO VIEW: type npm start and project should load on your browser at localhost:8080
@@ -95,4 +100,4 @@ Upon clicking the game link (section #3), game/dist is loaded from the gh-pages 
 - running npm start will delete the dist folder (the build folder) so type npm run build to recreate the dist folder and re-build it
 - After rebuilding the project, you can now view the updated build by clicking on the Live Preview button in Brackets or the Go Live button in Visual Studio for instance without typing npm start
 
-- NOTE TO UPLOAD CHANGES TO REPOSITORY: type npm run deploy to upload the build files (dist folder) onto the gh-pages branch on the repository (https://github.com/tzahiuol/agile-software-projects/tree/gh-pages). The gh-pages branch only contains the build files and not the entire project.
+- NOTE TO UPLOAD CHANGES TO REPOSITORY: type npm run deploy to upload the build files (dist folder) onto the gh-pages branch on the repository (https://github.com/samsherrod/2D-Platformer). The gh-pages branch only contains the build files and not the entire project.
